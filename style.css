@@ -233,7 +233,7 @@ nav {
     transform: rotate(-45deg);
 }
 
-@media (max-width: 848px) {
+@media (max-width: 768px) {
     .menu-icon {
         display: block;
     }
@@ -441,7 +441,7 @@ nav {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 846px) {
     .hero-container {
         padding-left: 5%;
         padding-right: 5%;
