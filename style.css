@@ -233,7 +233,7 @@ nav {
     transform: rotate(-45deg);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 848px) {
     .menu-icon {
         display: block;
     }
@@ -441,7 +441,7 @@ nav {
     }
 }
 
-@media (max-width: 846px) {
+@media (max-width: 848px) {
     .hero-container {
         padding-left: 5%;
         padding-right: 5%;
@@ -586,7 +586,7 @@ nav {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 848px) {
     .services {
         padding: 80px 0;
     }
@@ -917,7 +917,7 @@ nav {
     color: var(--light-gray);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 848px) {
     .contact {
         padding: 60px 20px;
     }
@@ -1090,7 +1090,7 @@ footer {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 848px) {
     nav {
         padding: 20px;
     }
