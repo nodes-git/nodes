@@ -359,11 +359,31 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         console.log('Form submission started');
 
-        // Get form data
+        // Validate form data
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = (document.getElementById('country-code').value + document.getElementById('phone').value).trim();
+
+        if (!name || !email || !phone) {
+            console.error('Form validation failed');
+            submitBtn.innerHTML = 'Please fill all fields <span>↺</span>';
+            submitBtn.style.backgroundColor = '#ff0000';
+            return false;
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            console.error('Invalid email format');
+            submitBtn.innerHTML = 'Invalid email format <span>↺</span>';
+            submitBtn.style.backgroundColor = '#ff0000';
+            return false;
+        }
+
         const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('country-code').value + document.getElementById('phone').value,
+            name,
+            email,
+            phone,
             submitted_at: new Date().toISOString()
         };
 
@@ -375,11 +395,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             console.log('Attempting to submit to Supabase...');
+            
+            // Check if Supabase client is initialized
+            if (!supabase) {
+                throw new Error('Supabase client not initialized');
+            }
+
             const { data, error } = await supabase
                 .from('contacts')
-                .insert(formData);
+                .insert([formData]);
 
-            if (error) throw error;
+            if (error) {
+                console.error('Supabase error:', error);
+                throw error;
+            }
 
             console.log('Submission successful:', data);
             
@@ -400,7 +429,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Submission error:', error);
-            submitBtn.innerHTML = 'Error! Try Again <span>↺</span>';
+            
+            // Show specific error message based on error type
+            let errorMessage = 'Error! Try Again';
+            if (error.message.includes('network')) {
+                errorMessage = 'Network Error! Check Connection';
+            } else if (error.message.includes('not initialized')) {
+                errorMessage = 'Service Error! Try Later';
+            }
+            
+            submitBtn.innerHTML = `${errorMessage} <span>↺</span>`;
             submitBtn.style.backgroundColor = '#ff0000';
             submitBtn.disabled = false;
         }
